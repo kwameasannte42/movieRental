@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { sendPasswordResetEmail } from 'firebase/auth';
-import auth from './firebase';
+import auth from '../components/firebase';
+import '../ResetPassword.css'; // Import the CSS file
 
 function ResetPassword() {
   const [email, setEmail] = useState('');
@@ -18,12 +19,17 @@ function ResetPassword() {
   };
 
   return (
-    <div>
+    <div className="reset-password-container"> {/* Add a class to the container div */}
       <h2>Reset Password</h2>
       {error && <p>{error}</p>}
-      <div>
+      <div className="reset-password-form"> {/* Add a class to the form */}
         <label>Email</label>
-        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
         <button onClick={handlePasswordReset}>Reset Password</button>
       </div>
       <p>Remember your password? <Link to="/login">Login</Link></p>
