@@ -1,31 +1,19 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
-import MovieList from "./components/MovieList";
-import RentalCart from "./components/RentalCart";
-import Footer from "./components/Footer";
-import Login from "./components/Login";
-import Signup from "./components/Signup";
-import ResetPassword from "./components/ResetPassword";
-import { useAuthState } from "react-firebase-hooks/auth";
-import auth from "./components/firebase";
+// App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import MovieList from './components/MovieList';
+import MovieDetail from './components/MovieDetails'; // Import MovieDetail component
+import RentalCart from './components/RentalCart';
+import Footer from './components/Footer';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import ResetPassword from './components/ResetPassword';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from './components/firebase';
 
 function App() {
   const [user, loading] = useAuthState(auth);
-  const [searchResults, setSearchResults] = useState([]);
-
-  const handleSearch = async (searchQuery) => {
-    try {
-      const apiKey = "b7893bd3"; // API key
-      const response = await fetch(
-        `http://www.omdbapi.com/?s=${searchQuery}&apikey=${apiKey}`
-      );
-      const data = await response.json();
-      setSearchResults(data.Search || []);
-    } catch (error) {
-      console.error("Error searching movies:", error);
-    }
-  };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -34,11 +22,10 @@ function App() {
   return (
     <Router>
       <div>
-        <Header onSearch={handleSearch} />{" "}
-        
+        <Header /> {/* Render Header component */}
         <Routes>
-          <Route path="/" element={<MovieList movies={searchResults} />} />{" "}
-          
+          <Route path="/" element={<MovieList />} /> {/* Render MovieList component */}
+          <Route path="/movie/:id" element={<MovieDetail />} /> {/* Render MovieDetail component */}
           {user ? (
             <Route path="/cart" element={<RentalCart />} />
           ) : (
@@ -49,7 +36,7 @@ function App() {
             </>
           )}
         </Routes>
-        <Footer />
+        <Footer /> {/* Render Footer component */}
       </div>
     </Router>
   );
