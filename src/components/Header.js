@@ -18,7 +18,9 @@ function Header({ onSearch }) {
   };
 
   const handleSearch = () => {
-    onSearch(searchQuery.trim());
+    if (onSearch && typeof onSearch === "function") {
+      onSearch(searchQuery.trim()); // Pass trimmed searchQuery to onSearch function
+    }
   };
 
   return (
