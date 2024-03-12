@@ -1,18 +1,29 @@
-// App.js
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import MovieList from './components/MovieList';
 import RentalCart from './components/RentalCart';
 import Footer from './components/Footer';
 import Login from './components/Login';
-import Signup from './components/Signup'; // Import Signup component
-import ResetPassword from './components/ResetPassword'; // Import ResetPassword component
+import Signup from './components/Signup';
+import ResetPassword from './components/ResetPassword';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from './components/firebase';
 
 function App() {
   const [user, loading] = useAuthState(auth);
+  const [searchResults, setSearchResults] = useState([]);
+
+  const handleSearch = async (searchQuery) => {
+    try {
+      const apiKey = 'b7893bd3'; // Your API key
+      const response = await fetch(`http://www.omdbapi.com/?s=${searchQuery}&apikey=${apiKey}`);
+      const data = await response.json();
+      setSearchResults(data.Search || []);
+    } catch (error) {
+      console.error('Error searching movies:', error);
+    }
+  };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -21,16 +32,16 @@ function App() {
   return (
     <Router>
       <div>
-        <Header />
+        <Header onSearch={handleSearch} /> {/* Pass handleSearch function as prop */}
         <Routes>
-          <Route path="/" element={<MovieList />} />
+          <Route path="/" element={<MovieList movies={searchResults} />} /> {/* Pass search results as prop to MovieList */}
           {user ? (
             <Route path="/cart" element={<RentalCart />} />
           ) : (
             <>
               <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} /> {/* Add route for Signup component */}
-              <Route path="/reset-password" element={<ResetPassword />} /> {/* Add route for ResetPassword component */}
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
             </>
           )}
         </Routes>

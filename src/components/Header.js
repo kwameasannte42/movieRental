@@ -1,34 +1,65 @@
-// components/Header.js
-import React from 'react';
-import { AppBar, Toolbar, Typography, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import auth from './firebase';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { AppBar, Toolbar, Typography, Button, TextField } from "@mui/material";
+import { Search } from "@mui/icons-material";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "./firebase";
 
-function Header() {
+function Header({ onSearch }) {
   const [user] = useAuthState(auth);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleSignOut = () => {
-    // Sign out the user
-    // auth.signOut();
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
+  const handleSearch = () => {
+    onSearch(searchQuery.trim());
   };
 
   return (
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>Movie Rental</Link>
-        </Typography>
-        {user ? (
-          <>
-            <Button color="inherit" onClick={handleSignOut}>Logout</Button>
-            <Link to="/cart" style={{ textDecoration: 'none', color: 'white' }}>Cart</Link>
-          </>
-        ) : (
-          <Link to="/login" style={{ textDecoration: 'none', color: 'white' }}>
-            <Button color="inherit">Login</Button>
+          <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+            Movie Rental
           </Link>
-        )}
+        </Typography>
+        <div style={{ display: "flex" }}>
+          <TextField
+            placeholder="Search movies"
+            variant="outlined"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            InputProps={{
+              sx: { color: 'white' }, // Set text color to white
+              endAdornment: (
+                <Button color="inherit" onClick={handleSearch}>
+                  <Search />
+                </Button>
+              ),
+            }}
+          />
+          {user ? (
+            <>
+              <Button color="inherit" component={Link} to="/cart">
+                Cart
+              </Button>
+              <Button color="inherit" onClick={handleLogout}>
+                Logout
+              </Button>{" "}
+              {/* Add logout button */}
+            </>
+          ) : (
+            <Button color="inherit" component={Link} to="/login">
+              Login
+            </Button>
+          )}
+        </div>
       </Toolbar>
     </AppBar>
   );

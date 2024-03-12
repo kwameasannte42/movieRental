@@ -23,10 +23,10 @@ function Signup() {
   };
 
   return (
-    <div className="signup-container"> {/* Add a class to the container div */}
+    <div className="signup-container"> 
       <h2>Sign Up</h2>
       {error && <p>{error}</p>}
-      <form className="signup-form" onSubmit={handleSignup}> {/* Add a class to the form */}
+      <form className="signup-form" onSubmit={handleSignup}> 
         <div>
           <input
             type="email"

@@ -25,10 +25,10 @@ function Login() {
   };
 
   return (
-    <div className="login-container"> {/* Add a class to the container div */}
+    <div className="login-container"> 
       <h2>Login</h2>
       {error && <p>{error}</p>}
-      <form className="login-form" onSubmit={handleLogin}> {/* Add a class to the form */}
+      <form className="login-form" onSubmit={handleLogin}> 
         <div>
           <input
             type="email"
