@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Header from './components/Header';
-import MovieList from './components/MovieList';
-import RentalCart from './components/RentalCart';
-import Footer from './components/Footer';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import ResetPassword from './components/ResetPassword';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import auth from './components/firebase';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./components/Header";
+import MovieList from "./components/MovieList";
+import RentalCart from "./components/RentalCart";
+import Footer from "./components/Footer";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+import ResetPassword from "./components/ResetPassword";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "./components/firebase";
 
 function App() {
   const [user, loading] = useAuthState(auth);
@@ -16,12 +16,14 @@ function App() {
 
   const handleSearch = async (searchQuery) => {
     try {
-      const apiKey = 'b7893bd3'; // Your API key
-      const response = await fetch(`http://www.omdbapi.com/?s=${searchQuery}&apikey=${apiKey}`);
+      const apiKey = "b7893bd3"; // API key
+      const response = await fetch(
+        `http://www.omdbapi.com/?s=${searchQuery}&apikey=${apiKey}`
+      );
       const data = await response.json();
       setSearchResults(data.Search || []);
     } catch (error) {
-      console.error('Error searching movies:', error);
+      console.error("Error searching movies:", error);
     }
   };
 
@@ -32,9 +34,11 @@ function App() {
   return (
     <Router>
       <div>
-        <Header onSearch={handleSearch} /> {/* Pass handleSearch function as prop */}
+        <Header onSearch={handleSearch} />{" "}
+        
         <Routes>
-          <Route path="/" element={<MovieList movies={searchResults} />} /> {/* Pass search results as prop to MovieList */}
+          <Route path="/" element={<MovieList movies={searchResults} />} />{" "}
+          
           {user ? (
             <Route path="/cart" element={<RentalCart />} />
           ) : (

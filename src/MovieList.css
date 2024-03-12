@@ -23,3 +23,8 @@
     border-radius: 0;
   }
 }
+
+
+.movie-link {
+  text-decoration: none;
+}

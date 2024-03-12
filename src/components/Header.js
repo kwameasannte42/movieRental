@@ -31,14 +31,14 @@ function Header({ onSearch }) {
             Movie Rental
           </Link>
         </Typography>
-        <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", alignItems: "center" }}>
           <TextField
             placeholder="Search movies"
             variant="outlined"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             InputProps={{
-              sx: { color: 'white' }, // Set text color to white
+              sx: { color: "white" }, // Set text color to white
               endAdornment: (
                 <Button color="inherit" onClick={handleSearch}>
                   <Search />
@@ -53,8 +53,7 @@ function Header({ onSearch }) {
               </Button>
               <Button color="inherit" onClick={handleLogout}>
                 Logout
-              </Button>{" "}
-              {/* Add logout button */}
+              </Button>
             </>
           ) : (
             <Button color="inherit" component={Link} to="/login">
