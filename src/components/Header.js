@@ -3,7 +3,21 @@ import { Link } from "react-router-dom";
 import { AppBar, Toolbar, Typography, Button, TextField } from "@mui/material";
 import { Search } from "@mui/icons-material";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { toast, ToastContainer } from "react-toastify"; // Import toast functionality
+import "react-toastify/dist/ReactToastify.css"; // Import toast styles
 import auth from "./firebase";
+
+const LogoutButton = ({ onLogout }) => (
+  <Button color="inherit" onClick={onLogout}>
+    Logout
+  </Button>
+);
+
+const LoginButton = () => (
+  <Button color="inherit" component={Link} to="/login">
+    Login
+  </Button>
+);
 
 function Header({ onSearch }) {
   const [user] = useAuthState(auth);
@@ -13,56 +27,55 @@ function Header({ onSearch }) {
     try {
       await auth.signOut();
     } catch (error) {
-      console.error("Error logging out:", error);
+      toast.error("Error logging out. Please try again later.");
     }
   };
 
   const handleSearch = () => {
     if (onSearch && typeof onSearch === "function") {
-      onSearch(searchQuery.trim()); // Trigger the search with the trimmed query
+      onSearch(searchQuery.trim());
     }
   };
 
   return (
-    <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-            Movie Rental
-          </Link>
-        </Typography>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <TextField
-            placeholder="Search movies"
-            variant="outlined"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            InputProps={{
-              sx: { color: "white" }, // Set text color to white
-              endAdornment: (
-                <Button color="inherit" onClick={handleSearch}>
-                  <Search />
+    <>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+              Movie Rental
+            </Link>
+          </Typography>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <TextField
+              placeholder="Search movies"
+              variant="outlined"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              InputProps={{
+                sx: { color: "white" },
+                endAdornment: (
+                  <Button color="inherit" onClick={handleSearch}>
+                    <Search />
+                  </Button>
+                ),
+              }}
+            />
+            {user ? (
+              <>
+                <Button color="inherit" component={Link} to="/cart">
+                  Cart
                 </Button>
-              ),
-            }}
-          />
-          {user ? (
-            <>
-              <Button color="inherit" component={Link} to="/cart">
-                Cart
-              </Button>
-              <Button color="inherit" onClick={handleLogout}>
-                Logout
-              </Button>
-            </>
-          ) : (
-            <Button color="inherit" component={Link} to="/login">
-              Login
-            </Button>
-          )}
-        </div>
-      </Toolbar>
-    </AppBar>
+                <LogoutButton onLogout={handleLogout} />
+              </>
+            ) : (
+              <LoginButton />
+            )}
+          </div>
+        </Toolbar>
+      </AppBar>
+      <ToastContainer />
+    </>
   );
 }
 
