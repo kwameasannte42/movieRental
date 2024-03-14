@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import MovieList from './components/MovieList';
-import MovieDetail from './components/MovieDetails'; // Import MovieDetail component
+import MovieDetail from './components/MovieDetails'; 
 import RentalCart from './components/RentalCart';
 import Footer from './components/Footer';
 import Login from './components/Login';
@@ -12,13 +12,15 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from './components/firebase';
 import axios from 'axios';
 
+
 function App() {
+  document.title = 'Movie Rental'
   const [user, loading] = useAuthState(auth);
   const [searchResults, setSearchResults] = useState([]);
 
   const handleSearch = async (searchQuery) => {
     try {
-      const apiKey = 'b7893bd3'; // Your API key
+      const apiKey = 'b7893bd3'; // API key
       const response = await axios.get(`http://www.omdbapi.com/?s=${searchQuery}&apikey=${apiKey}`);
       setSearchResults(response.data.Search || []);
     } catch (error) {
@@ -33,10 +35,10 @@ function App() {
   return (
     <Router>
       <div>
-        <Header onSearch={handleSearch} /> {/* Pass handleSearch function as prop */}
+        <Header onSearch={handleSearch} /> 
         <Routes>
-          <Route path="/" element={<MovieList movies={searchResults} />} /> {/* Pass search results as prop to MovieList */}
-          <Route path="/movie/:id" element={<MovieDetail />} /> {/* Render MovieDetail component */}
+          <Route path="/" element={<MovieList movies={searchResults} />} />
+          <Route path="/movie/:id" element={<MovieDetail />} /> 
           {user ? (
             <Route path="/cart" element={<RentalCart />} />
           ) : (
@@ -47,7 +49,7 @@ function App() {
             </>
           )}
         </Routes>
-        <Footer /> {/* Render Footer component */}
+        <Footer /> 
       </div>
     </Router>
   );
