@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import {
   Grid,
   Card,
@@ -8,30 +7,36 @@ import {
   CardContent,
   CardMedia,
   Typography,
+  TextField,
+  Button,
 } from "@mui/material";
 import "../MovieList.css"; // Import the CSS file for styling
 
-function MovieList() {
-  const [movies, setMovies] = useState([]);
+function MovieList({ movies, onSearch }) {
+  const [searchQuery, setSearchQuery] = useState("");
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const apiKey = "b7893bd3"; // Your API key
-        const response = await axios.get(
-          `http://www.omdbapi.com/?s=movie&apikey=${apiKey}`
-        );
-        setMovies(response.data.Search);
-      } catch (error) {
-        console.error("Error fetching movies:", error);
-      }
-    };
-
-    fetchMovies();
-  }, []);
+  const handleSearch = () => {
+    if (searchQuery.trim() === "") {
+      onSearch("");
+    } else {
+      onSearch(searchQuery);
+    }
+  };
 
   return (
     <div className="movie-list-container">
+      <div className="search-container">
+        <TextField
+          placeholder="Search movies"
+          variant="outlined"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={{ marginRight: "10px" }}
+        />
+        <Button variant="contained" onClick={handleSearch}>
+          Search
+        </Button>
+      </div>
       <Grid container spacing={2}>
         {movies.map((movie) => (
           <Grid item key={movie.imdbID} xs={12} sm={6} md={4} lg={3}>

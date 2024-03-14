@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+// Header.js
+
+import React from "react";
 import { Link } from "react-router-dom";
-import { AppBar, Toolbar, Typography, Button, TextField } from "@mui/material";
-import { Search } from "@mui/icons-material";
+import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { toast, ToastContainer } from "react-toastify"; // Import toast functionality
 import "react-toastify/dist/ReactToastify.css"; // Import toast styles
@@ -19,21 +20,14 @@ const LoginButton = () => (
   </Button>
 );
 
-function Header({ onSearch }) {
+function Header() {
   const [user] = useAuthState(auth);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const handleLogout = async () => {
     try {
       await auth.signOut();
     } catch (error) {
       toast.error("Error logging out. Please try again later.");
-    }
-  };
-
-  const handleSearch = () => {
-    if (onSearch && typeof onSearch === "function") {
-      onSearch(searchQuery.trim());
     }
   };
 
@@ -47,20 +41,6 @@ function Header({ onSearch }) {
             </Link>
           </Typography>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <TextField
-              placeholder="Search movies"
-              variant="outlined"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              InputProps={{
-                sx: { color: "white" },
-                endAdornment: (
-                  <Button color="inherit" onClick={handleSearch}>
-                    <Search />
-                  </Button>
-                ),
-              }}
-            />
             {user ? (
               <>
                 <Button color="inherit" component={Link} to="/cart">

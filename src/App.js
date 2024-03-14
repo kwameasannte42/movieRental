@@ -38,7 +38,10 @@ function App() {
       <div>
         <Header onSearch={handleSearch} />
         <Routes>
-          <Route path="/" element={<MovieList movies={searchResults} />} />
+          <Route
+            path="/"
+            element={<MovieList movies={searchResults} onSearch={handleSearch} />}
+          />
           <Route path="/movie/:id" element={<MovieDetail />} />
           {user ? (
             <Route path="/cart" element={<RentalCart />} />
