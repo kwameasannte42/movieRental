@@ -4,8 +4,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { toast, ToastContainer } from "react-toastify"; // Import toast functionality
-import "react-toastify/dist/ReactToastify.css"; // Import toast styles
+import { toast, ToastContainer } from "react-toastify"; 
+import "react-toastify/dist/ReactToastify.css"; 
 import auth from "./firebase";
 
 const LogoutButton = ({ onLogout }) => (

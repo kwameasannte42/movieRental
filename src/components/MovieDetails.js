@@ -19,7 +19,7 @@ function MovieDetail() {
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
-        const apiKey = "b7893bd3"; // Your API key
+        const apiKey = "b7893bd3"; // API key
         const response = await axios.get(
           `http://www.omdbapi.com/?i=${id}&apikey=${apiKey}`
         );

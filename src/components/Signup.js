@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import auth from '../components/firebase';
-import '../Signup.css'; // Import the CSS file
+import '../Signup.css'; 
 
 function Signup() {
   const [email, setEmail] = useState('');

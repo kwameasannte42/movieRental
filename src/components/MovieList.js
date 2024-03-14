@@ -10,7 +10,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import "../MovieList.css"; // Import the CSS file for styling
+import "../MovieList.css"; 
 
 function MovieList({ movies, onSearch }) {
   const [searchQuery, setSearchQuery] = useState("");
