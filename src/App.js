@@ -11,6 +11,7 @@ import ResetPassword from "./components/ResetPassword";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "./components/firebase";
 import axios from "axios";
+import { RentalCartProvider } from "./components/RentalCartContext";
 
 function App() {
   document.title = "Movie Rental";
@@ -34,30 +35,36 @@ function App() {
   }
 
   return (
-    <Router>
-      <div>
-        <Header />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <MovieList movies={searchResults} onSearch={handleSearch} />
-            }
-          />
-          <Route path="/movie/:id" element={<MovieDetail />} />
-          {user ? (
+    <RentalCartProvider>
+      <Router>
+        <div>
+          <Header />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <MovieList
+                  movies={searchResults}
+                  onSearch={handleSearch}
+                />
+              }
+            />
+            <Route path="/movie/:id" element={<MovieDetail />} />
             <Route path="/cart" element={<RentalCart />} />
-          ) : (
-            <>
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-            </>
-          )}
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
+            {user ? (
+              <Route path="/cart" element={<RentalCart />} />
+            ) : (
+              <>
+                <Route path="/login" element={<Login />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+              </>
+            )}
+          </Routes>
+          <Footer />
+        </div>
+      </Router>
+    </RentalCartProvider>
   );
 }
 
