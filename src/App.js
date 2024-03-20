@@ -36,11 +36,13 @@ function App() {
   return (
     <Router>
       <div>
-        <Header onSearch={handleSearch} />
+        <Header />
         <Routes>
           <Route
             path="/"
-            element={<MovieList movies={searchResults} onSearch={handleSearch} />}
+            element={
+              <MovieList movies={searchResults} onSearch={handleSearch} />
+            }
           />
           <Route path="/movie/:id" element={<MovieDetail />} />
           {user ? (
